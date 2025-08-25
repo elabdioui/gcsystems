@@ -4,13 +4,18 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
+
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-   metadataBase: new URL('https://gcsystems.ma'),
-  title: "GC SYSTEMS - Protection Incendie & Fermetures Industrielles au Maroc | Amine Ghaimy",
+  metadataBase: new URL("https://gcsystems.ma"),
+  title: {
+    default: "GC SYSTEMS - Protection Incendie & Fermetures Industrielles au Maroc",
+    template: "%s | GC SYSTEMS"
+  },
   description: "Expert en protection incendie et fermetures industrielles au Maroc. Installation, maintenance et dépannage de systèmes de sécurité par Amine Ghaimy - GC SYSTEMS. Casablanca, Maroc.",
   keywords: [
     // Mots-clés principaux
@@ -124,7 +129,7 @@ export const metadata: Metadata = {
     "société maintenance incendie Casablanca"
   ],
   authors: [{ name: "Amine Ghaimy", url: "https://gcsystems.ma" }],
-  creator: "Haitham El Abdiouhi", // Vous en tant que développeur
+  creator: "Haitham El Abdiouhi", 
   publisher: "GC SYSTEMS - Amine Ghaimy",
   robots: {
     index: true,
@@ -132,41 +137,38 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    locale: 'fr_MA',
-    url: 'https://gcsystems.ma',
-    siteName: 'GC SYSTEMS',
-    title: 'GC SYSTEMS - Protection Incendie & Fermetures Industrielles Maroc',
-    description: 'Expert en protection incendie et fermetures industrielles au Maroc par Amine Ghaimy. Installation, maintenance et dépannage de systèmes de sécurité.',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'GC SYSTEMS - Protection Incendie Maroc - Amine Ghaimy',
-      },
-    ],
+    type: "website",
+    locale: "fr_MA",
+    url: "https://gcsystems.ma",
+    siteName: "GC SYSTEMS",
+    title: "GC SYSTEMS - Protection Incendie & Fermetures Industrielles Maroc",
+    description: "Expert en protection incendie et fermetures industrielles au Maroc par Amine Ghaimy.",
+    images: [{
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: "GC SYSTEMS - Protection Incendie Maroc"
+    }]
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'GC SYSTEMS - Protection Incendie Maroc',
-    description: 'Expert en protection incendie et fermetures industrielles au Maroc par Amine Ghaimy.',
-    images: ['/og-image.jpg'],
+    card: "summary_large_image",
+    title: "GC SYSTEMS - Protection Incendie Maroc",
+    description: "Expert en protection incendie et fermetures industrielles au Maroc par Amine Ghaimy.",
+    images: ["/og-image.jpg"]
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/apple-touch-icon.png" }]
   },
-  manifest: '/site.webmanifest',
+  manifest: "/site.webmanifest",
   alternates: {
-    canonical: 'https://gcsystems.ma',
+    canonical: "https://gcsystems.ma"
   },
   
 }
@@ -189,9 +191,10 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Header />
-        {children}
+        <main>{children}</main>
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { useState, useEffect, useRef } from "react"
+import AnimatedStat from "./animated-stat"
 
 // Données statiques
 const clients = [
@@ -43,81 +44,6 @@ const testimonials = [
 	},
 ]
 
-// Composant pour les stats animées
-function AnimatedStat({ stat, index }: { stat: typeof stats[0]; index: number }) {
-	const [mounted, setMounted] = useState(false)
-	const [displayNumber, setDisplayNumber] = useState(stat.number)
-	const [isVisible, setIsVisible] = useState(false)
-	const ref = useRef<HTMLDivElement>(null)
-
-	useEffect(() => {
-		setMounted(true)
-	}, [])
-
-	useEffect(() => {
-		if (!mounted) return
-
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					setIsVisible(true)
-
-					// Animation seulement pour les nombres (pas pour "24/7")
-					if (stat.number.includes("+") && stat.number !== "24/7") {
-						const targetNumber = parseInt(stat.number.replace("+", ""))
-						const duration = 2000
-						const steps = 50
-						const increment = targetNumber / steps
-						let current = 0
-
-						const timer = setInterval(() => {
-							current += increment
-							if (current >= targetNumber) {
-								setDisplayNumber(stat.number)
-								clearInterval(timer)
-							} else {
-								setDisplayNumber(Math.floor(current) + "+")
-							}
-						}, duration / steps)
-
-						return () => clearInterval(timer)
-					}
-				}
-			},
-			{ threshold: 0.1 }
-		)
-
-		if (ref.current) {
-			observer.observe(ref.current)
-		}
-
-		return () => {
-			if (ref.current) {
-				observer.unobserve(ref.current)
-			}
-		}
-	}, [mounted, stat.number])
-
-	// Rendu de base pour éviter l'hydratation mismatch
-	if (!mounted) {
-		return (
-			<div>
-				<div className="text-4xl font-bold mb-2">{stat.number}</div>
-				<div className="text-red-100">{stat.label}</div>
-			</div>
-		)
-	}
-
-	return (
-		<div ref={ref}>
-			<div className="text-4xl font-bold mb-2">
-				{isVisible ? displayNumber : stat.number}
-			</div>
-			<div className="text-red-100">{stat.label}</div>
-		</div>
-	)
-}
-
 export default function ReferencesSection() {
 	const [mounted, setMounted] = useState(false)
 
@@ -139,7 +65,12 @@ export default function ReferencesSection() {
 				<div className="bg-red-600 text-white rounded-2xl p-8 mb-16">
 					<div className="grid md:grid-cols-4 gap-8 text-center">
 						{stats.map((stat, index) => (
-							<AnimatedStat key={index} stat={stat} index={index} />
+							<AnimatedStat
+								key={stat.label}
+								number={stat.number}
+								label={stat.label}
+								index={index}
+							/>
 						))}
 					</div>
 				</div>
