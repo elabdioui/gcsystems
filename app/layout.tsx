@@ -129,7 +129,7 @@ export const metadata: Metadata = {
     "société maintenance incendie Casablanca"
   ],
   authors: [{ name: "Amine Ghaimy", url: "https://gcsystems.ma" }],
-  creator: "Haitham El Abdiouhi", 
+  creator: "Haitham El Abdioui", 
   publisher: "GC SYSTEMS - Amine Ghaimy",
   robots: {
     index: true,
